@@ -2,3 +2,8 @@
 
 --> Frontend code using React.js
 
+
+RUN (make sure using NVM 16)
+1. npm install
+2. npm start
+
