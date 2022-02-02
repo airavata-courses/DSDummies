@@ -46,16 +46,15 @@ export function LoginForm(props) {
 				payload: data,
 			});
 
-			if (data != null) {
-				navigate(`plot`);
-			}
-
 			//when we refresh the page the data stored in the state will get lost.S, for saving that we need
 			//store the data in the browser's local storage and when the user refreshes the page then we can load the
 			//data from the local storage
 			window.localStorage.setItem("user", JSON.stringify(data));
 
 			setLoading(false);
+			if (data != null) {
+				navigate(`plot`);
+			}
 		} catch (error) {
 			setLoading(false);
 			toast.error(error.response.data);
