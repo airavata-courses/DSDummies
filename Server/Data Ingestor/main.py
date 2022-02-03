@@ -25,7 +25,10 @@ class NEXRAD_Analysis(Resource):
         # res = get_animation(station, year, month, date, hour)
         res = get_plot_base64("2021", "01", "01", "KIND")
         
-        return {"res": res}
+        return {
+            "resp": res,
+            "status" : ""
+            }
     
 class IsWorking(Resource):
     def get(self):
