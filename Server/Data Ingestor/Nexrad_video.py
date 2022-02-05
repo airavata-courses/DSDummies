@@ -110,7 +110,7 @@ def get_animation(station, year, month, date, time):
     except BaseException as error:
         print("*"*50)
         print(error)
-        err_str = 'Error Occured while interating with AWS: ' #+  str(error)
+        err_str = 'Error Occured while interating with AWS: ' +  str(error)
         raise Exception(err_str)
         
 def testFunc():

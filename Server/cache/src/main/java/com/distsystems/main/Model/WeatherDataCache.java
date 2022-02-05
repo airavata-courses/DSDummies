@@ -74,9 +74,28 @@ public class WeatherDataCache {
         return responses.get(0).resp_data;
     }
 
-    public String getDataIngesterResponse(GetPlotRequest req) throws Exception {
+    public String getPlotResponse(GetPlotRequest req) throws Exception {
         try {
             String uri = "http://127.0.0.1:5678/get-plot";
+            RestTemplate restTemplate = new RestTemplate();
+            GetPlotResponse result = restTemplate.postForObject(uri, req, GetPlotResponse.class);
+
+            // System.out.println(result.getResp());
+
+            if (result.getStatus() == "Error") {
+                return "";
+            }
+
+            return result.getResp();
+        } catch (Exception e) {
+            throw new Exception("Error While interacting with Flask API : " + e.getMessage());
+        }
+
+    }
+
+    public String getVideoResponse(GetPlotRequest req) throws Exception {
+        try {
+            String uri = "http://127.0.0.1:5678/get-video";
             RestTemplate restTemplate = new RestTemplate();
             GetPlotResponse result = restTemplate.postForObject(uri, req, GetPlotResponse.class);
 
