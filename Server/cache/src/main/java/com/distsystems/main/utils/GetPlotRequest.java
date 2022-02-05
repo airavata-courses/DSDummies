@@ -2,12 +2,12 @@ package com.distsystems.main.utils;
 
 public class GetPlotRequest {
     private String station;
-    private int year;
-    private int month;
-    private int date;
-    private int hour;
+    private String year;
+    private String month;
+    private String date;
+    private String hour;
 
-    public GetPlotRequest(String station, int year, int month, int date, int hour) {
+    public GetPlotRequest(String station, String year, String month, String date, String hour) {
         this.station = station;
         this.year = year;
         this.month = month;
@@ -23,35 +23,35 @@ public class GetPlotRequest {
         this.station = station;
     }
 
-    public int getYear() {
+    public String getYear() {
         return year;
     }
 
-    public void setYear(int year) {
+    public void setYear(String year) {
         this.year = year;
     }
 
-    public int getMonth() {
+    public String getMonth() {
         return month;
     }
 
-    public void setMonth(int month) {
+    public void setMonth(String month) {
         this.month = month;
     }
 
-    public int getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(int date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
-    public int getHour() {
+    public String getHour() {
         return hour;
     }
 
-    public void setHour(int hour) {
+    public void setHour(String hour) {
         this.hour = hour;
     }
 

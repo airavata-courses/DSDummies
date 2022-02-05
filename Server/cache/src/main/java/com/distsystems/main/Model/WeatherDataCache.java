@@ -76,7 +76,7 @@ public class WeatherDataCache {
 
     public String getDataIngesterResponse(GetPlotRequest req) throws Exception {
         try {
-            String uri = "http://127.0.0.1:5678/getPlot";
+            String uri = "http://127.0.0.1:5678/get-plot";
             RestTemplate restTemplate = new RestTemplate();
             GetPlotResponse result = restTemplate.postForObject(uri, req, GetPlotResponse.class);
 
