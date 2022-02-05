@@ -47,66 +47,71 @@ def polar_to_cartesian(az, rng):
 
 
 def get_animation(station, year, month, date, time):
-    dt = datetime(year, month, date, time)
-    # print(station)
-    # print(dt)
-    
-    rs = RadarServer('http://tds-nexrad.scigw.unidata.ucar.edu/thredds/radarServer/nexrad/level2/S3/')
-    query = rs.query()
-     # Our specified time range
-    query.stations(station).time_range(dt, dt + timedelta(hours=1))
-    
-    if not rs.validate_query(query):
-        return "invalid request"
-    
-    cat = rs.get_catalog(query)
-    if len(cat.datasets) == 0:
-        return "No data found"
-    
-    ref_norm, ref_cmap = mpplots.ctables.registry.get_with_steps('NWSReflectivity', 5, 5)
-    
-    ds = cat.datasets[0]
-    data = ds.remote_access()
-    fig = plt.figure(figsize=(10, 7.5))
-    sLon, sLat = data.StationLongitude, data.StationLatitude
-    ax = new_map(fig, sLon, sLat)
+    try:
+        dt = datetime(year, month, date, time)
+        
+        rs = RadarServer('http://tds-nexrad.scigw.unidata.ucar.edu/thredds/radarServer/nexrad/level2/S3/')
+        query = rs.query()
+        
+        # Our specified time range
+        query.stations(station).time_range(dt, dt + timedelta(hours=1))
+        
+        if not rs.validate_query(query):
+            return "invalid request"
+        
+        cat = rs.get_catalog(query)
+        if len(cat.datasets) == 0:
+            return None
+        
+        ref_norm, ref_cmap = mpplots.ctables.registry.get_with_steps('NWSReflectivity', 5, 5)
+        
+        ds = cat.datasets[0]
+        data = ds.remote_access()
+        fig = plt.figure(figsize=(10, 7.5))
+        sLon, sLat = data.StationLongitude, data.StationLatitude
+        ax = new_map(fig, sLon, sLat)
 
-    # Set limits in lat/lon space
-    ax.set_extent([sLon + 5, sLon - 5, sLat - 5, sLat + 5])
+        # Set limits in lat/lon space
+        ax.set_extent([sLon + 5, sLon - 5, sLat - 5, sLat + 5])
 
-    ax.add_feature(cfeature.OCEAN.with_scale('50m'))
-    ax.add_feature(cfeature.LAND.with_scale('50m'))
-    
-    
-    meshes = []
-    for ds_name in cat.datasets:
-        # After looping over the list of sorted datasets, pull the actual Dataset object out
-        # of our list of items and access over CDMRemote
-        data = cat.datasets[ds_name].remote_access()
-
-        # Pull out the data of interest
-        sweep = 0
-        rng = data.variables['distanceR_HI'][:]
-        az = data.variables['azimuthR_HI'][sweep]
-        ref_var = data.variables['Reflectivity_HI']
-
-        # Convert data to float and coordinates to Cartesian
-        ref = raw_to_masked_float(ref_var, ref_var[sweep])
-        x, y = polar_to_cartesian(az, rng)
-
-        # Plot the data and the timestamp
-        mesh = ax.pcolormesh(x, y, ref, cmap=ref_cmap, norm=ref_norm, zorder=0)
-        text = ax.text(0.7, 0.02, data.time_coverage_start, transform=ax.transAxes,
-                       fontdict={'size':16})
-
-        # Collect the things we've plotted so we can animate
-        meshes.append((mesh, text))
+        ax.add_feature(cfeature.OCEAN.with_scale('50m'))
+        ax.add_feature(cfeature.LAND.with_scale('50m'))
         
         
-    #get video
-    matplotlib.rcParams['animation.html'] = 'html5'
-    return ArtistAnimation(fig, meshes).to_html5_video()
-        
+        meshes = []
+        for ds_name in cat.datasets:
+            # After looping over the list of sorted datasets, pull the actual Dataset object out
+            # of our list of items and access over CDMRemote
+            data = cat.datasets[ds_name].remote_access()
+
+            # Pull out the data of interest
+            sweep = 0
+            rng = data.variables['distanceR_HI'][:]
+            az = data.variables['azimuthR_HI'][sweep]
+            ref_var = data.variables['Reflectivity_HI']
+
+            # Convert data to float and coordinates to Cartesian
+            ref = raw_to_masked_float(ref_var, ref_var[sweep])
+            x, y = polar_to_cartesian(az, rng)
+
+            # Plot the data and the timestamp
+            mesh = ax.pcolormesh(x, y, ref, cmap=ref_cmap, norm=ref_norm, zorder=0)
+            text = ax.text(0.7, 0.02, data.time_coverage_start, transform=ax.transAxes,
+                        fontdict={'size':16})
+
+            # Collect the things we've plotted so we can animate
+            meshes.append((mesh, text))
+            
+            
+        #get video
+        matplotlib.rcParams['animation.html'] = 'html5'
+        return ArtistAnimation(fig, meshes).to_html5_video()
+    
+    except BaseException as error:
+        print("*"*50)
+        print(error)
+        err_str = 'Error Occured while interating with AWS: ' #+  str(error)
+        raise Exception(err_str)
         
 def testFunc():
     return "Nexrad API is working"
