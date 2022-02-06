@@ -1,2 +1,2 @@
 build:
-	docker build -t node-app .
+	docker build -t react-app .
