@@ -4,7 +4,6 @@ import { Input, SubmitButton } from "../components/AuthForm/AuthFormStyles";
 import axios from "axios";
 import { toast } from "react-toastify";
 import USAMap from "react-usa-map";
-
 import { YearPicker, MonthPicker, DayPicker } from "react-dropdown-date";
 import Dropdown from "react-dropdown";
 import "react-dropdown/style.css";
@@ -53,25 +52,20 @@ const PlotPage = () => {
 			toast.error(error.response.data);
 		}
 	};
-
 	const mapHandler = event => {
 		setStation("Chosen State : " + " " + event.target.dataset.name);
 		setFlag(true);
 	};
-
 	const handleChange = nextChecked => {
 		setChecked(nextChecked);
 	};
-
 	const togglePopup = () => {
 		setIsOpen(!isOpen);
 	  }	
-
 	const options = [
 		"00-01 hrs", "01-02 hrs", "02-03 hrs", "03-04 hrs", "04-05 hrs", "05-06 hrs", "06-07 hrs", "07-08 hrs", "08-09 hrs", "09-10 hrs", "10-11 hrs", "11-12 hrs", "12-13 hrs",
 		"13-14 hrs", "14-15 hrs", "15-16 hrs", "16-17 hrs", "17-18 hrs", "18-19 hrs" , "19-20 hrs", "20-21 hrs", "21-22 hrs", "22-23 hrs", "23-00 hrs"
 	];
-
 	const format = 'HH:mm';
 
 	return (
