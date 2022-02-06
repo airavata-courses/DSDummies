@@ -1,4 +1,8 @@
 # DSDummies
 Spring 2022 Project
 
-This will be the development branch!
+Team members:
+
+1.) Parth Kapil
+2.) Umang Sharma
+3.) Prerna Achtani
