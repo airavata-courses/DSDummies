@@ -1,8 +1,14 @@
 # DSDummies
 Spring 2022 Project
 
-Team members:
+We are the Project milestone 1 on this branch
 
-1.) Parth Kapil
-2.) Umang Sharma
-3.) Prerna Achtani
+Hierarchy :
+
+Main : 
+	Project-Milestone1:
+			develop :
+				UI/Frontend
+				Microservice_A/Auth-service
+				Microservice_B/Cache
+				Microservice_C/Data-Ingestor
