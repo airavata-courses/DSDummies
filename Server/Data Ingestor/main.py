@@ -75,9 +75,9 @@ class NEXRAD_Video(Resource):
                 }
         except BaseException as error:
             print(error)
-            # err_str = "errro is : " + str(error)
+            err_str = "errro is : " + str(error)
             return {
-                "resp": "Error happend",
+                "resp": err_str,
                 "status" : "Error"
                 }
     
