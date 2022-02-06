@@ -1,0 +1,13 @@
+name: nexrad-env
+channels:
+  - conda-forge
+dependencies:
+  - pip
+  - siphon
+  - matplotlib
+  - cartopy
+  - metpy
+  - boto3
+  - boto
+  - Flask==1.1.2
+  - Flask-RESTful==0.3.8
