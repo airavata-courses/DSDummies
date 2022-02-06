@@ -9,6 +9,11 @@ import { YearPicker, MonthPicker, DayPicker } from "react-dropdown-date";
 import Dropdown from "react-dropdown";
 import "react-dropdown/style.css";
 import Switch from "react-switch";
+import { TimePicker } from 'antd';
+import 'antd/dist/antd.css';
+import moment from 'moment';
+import Popup from './popup';
+
 
 const PlotPage = () => {
 	const {
@@ -22,22 +27,25 @@ const PlotPage = () => {
 	const [loading, setLoading] = useState("");
 	const [flag, setFlag] = useState(false);
 	const [img, setImg] = useState("");
-	const [value, onChange] = useState("10:00");
 	const [checked, setChecked] = useState(false);
+	const [isOpen, setIsOpen] = useState(false);
 
 	const cache_api = "http://localhost:8080/api/getplot";
 
 	const handleSubmit = async () => {
 		//TODO: validate inputs
+		console.log("values recvd==",station, year, month, date, hour)
 		try {
 			console.log(cache_api);
 			setLoading(true);
+			//const body = { "station": station, "year": year, "month": month, "date": date, "hour":hour };
 			const body = { station: "KIND", year: "2012", month: "10", date: "01", hour: 15 };
 			const { data } = await axios.post(`${cache_api}`, body, {
 				"Content-Type": "text/JSON",
 			});
 			console.log("cache response : ", data);
 			setFlag(true);
+			togglePopup();
 			setImg(data.resp);
 			setLoading(false);
 		} catch (error) {
@@ -55,9 +63,16 @@ const PlotPage = () => {
 		setChecked(nextChecked);
 	};
 
-	const options = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+	const togglePopup = () => {
+		setIsOpen(!isOpen);
+	  }	
 
-	const defaultOption = options[0];
+	const options = [
+		"00-01 hrs", "01-02 hrs", "02-03 hrs", "03-04 hrs", "04-05 hrs", "05-06 hrs", "06-07 hrs", "07-08 hrs", "08-09 hrs", "09-10 hrs", "10-11 hrs", "11-12 hrs", "12-13 hrs",
+		"13-14 hrs", "14-15 hrs", "15-16 hrs", "16-17 hrs", "17-18 hrs", "18-19 hrs" , "19-20 hrs", "20-21 hrs", "21-22 hrs", "22-23 hrs", "23-00 hrs"
+	];
+
+	const format = 'HH:mm';
 
 	return (
 		<>
@@ -67,12 +82,12 @@ const PlotPage = () => {
 			<div style={{ marginTop: "4%", width: 740 }}>
 				<USAMap onClick={mapHandler}></USAMap>
 			</div>
-			<div style={{ marginTop: "-25%", marginLeft: "71%" }}>
-				{flag ? (
+			<div style={{ marginTop: "-35%", marginLeft: "71%" }}>
+				{flag ? 
 					<div>
 						{/* <input disabled type="text" style= {{width: "70%"}} placeholder="State" value= {station} onChange={e => setStation(e.target.value)}/> */}
 
-						<p>{station}</p>
+						<p style={{marginLeft: "0.5%"}}>Chosen State : {station}</p>
 						<br></br>
 						<YearPicker
 							defaultValue={"select year"}
@@ -123,42 +138,51 @@ const PlotPage = () => {
 								console.log(day);
 							}}
 						/>
+
+						<p style={{marginTop: "9%", marginLeft: "1"}}>Video Mode</p>
+							<div style={{marginTop: "-9.5%", marginLeft: "25%"}}>
+								<Switch
+									onChange={handleChange}
+									checked={checked}
+								/>
+							</div>
+
 						<br></br>
 						<br></br>
 						<br></br>
-						<div style={{ width: "22%" }}>
-							<Dropdown
-								options={options}
-								value="select start hour"
-								placeholder="Select start hour"
-								style={{ width: "10%" }}
-							/>
-						</div>
-						<div style={{ width: "22%", marginLeft: "22%", marginTop: "-18.5%" }}>
-							<Dropdown
-								options={options}
-								value="select end hour"
-								placeholder="Select start hour"
-								style={{ width: "10%" }}
-							/>
-						</div>
-						<div style={{ marginTop: "-8%", marginLeft: "48%" }}>
-							<Switch onChange={handleChange} checked={checked} />
-						</div>
+					
+						{checked ? 
+
+							<div style={{width:"46%", marginTop: "-11%"}}>
+							<Dropdown options={options} value="select hour range" placeholder="Select start hour" style={{width:"10%"}} onChange={(time) => {
+								setHour(time.value)
+							}}/>
+							</div>
+
+							: <div style={{width:"30%", marginTop: "-11%"}}>
+							<TimePicker defaultValue={moment(moment.now(), format)} format={format} onChange={(time) => {
+								setHour(time._d.getHours() + "-" + time._d.getMinutes());
+							}}/>
+						</div> 
+						}
+
 						<SubmitButton
 							type="submit"
 							onClick={handleSubmit}
 							style={{ width: "97%", marginTop: "8%" }}
-						>
-							Get Plot
+						>Get Plot
 						</SubmitButton>
+						</div> : ""}
+
+					<div >
+					{isOpen && <Popup
+						content={<>
+						<img  src={`data:image/png;base64,${img}` }/>
+						</>}
+						handleClose={togglePopup}
+					/>}
 					</div>
-				) : (
-					""
-				)}
-				<div>
-					<img src={`data:image/png;base64,${img}`} />
-				</div>
+				
 			</div>
 		</>
 	);
