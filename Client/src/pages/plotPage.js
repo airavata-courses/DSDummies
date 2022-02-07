@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Context } from "../context";
 import { Input, SubmitButton } from "../components/AuthForm/AuthFormStyles";
 import axios from "axios";
@@ -15,30 +15,46 @@ import PlotPopUp from "../components/PlotPopUp";
 import LoadingBox from "../components/LoadingBox";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import parse from "html-react-parser";
+import VideoPopUp from "../components/VideoPopUp";
+import { useNavigate } from "react-router-dom";
+
+// import Jumbotron from "react-bootstrap/Jumbotron";
 
 const PlotPage = () => {
-	const {
-		state: { user },
-	} = useContext(Context);
+	// for loading user data
+	const { state, dispatch } = useContext(Context);
+	const { user } = state;
+
+	let navigate = useNavigate();
+	//redirect user to homePage if they are not logged in
+	useEffect(() => {
+		if (user === null) {
+			let user_data = JSON.parse(window.localStorage.getItem("user"));
+			if (user_data === null) {
+				navigate(`/`);
+			}
+		}
+	}, [user]);
+
 	const [station, setStation] = useState("");
 	const [year, setYear] = useState("");
 	const [month, setMonth] = useState("");
 	const [date, setDate] = useState("");
-	const [hour, setHour] = useState([]);
+	const [hour, setHour] = useState(0);
 	const [loading, setLoading] = useState("");
 	const [flag, setFlag] = useState(false);
 	const [img, setImg] = useState("");
-	const [checked, setChecked] = useState(false);
+	const [isVideo, setIsVideo] = useState(false);
 	const [isOpen, setIsOpen] = useState(false);
 
-	const cache_api = "http://localhost:8080/api/getplot";
+	let cache_api = "http://localhost:8080/api/getplot";
+	// const cache_api = "http://localhost:8080/api/getvideo";
 
 	const handleSubmit = async () => {
 		//TODO: validate inputs
-		// console.log("values recvd==", station, year, month, date, hour);
+		console.log("values recvd==", station, year, month, date, hour);
 		try {
-			// console.log(cache_api);
-
 			if (year === "") {
 				toast.error("Please select Year!");
 				return;
@@ -53,10 +69,21 @@ const PlotPage = () => {
 			}
 
 			// const body = { station: "KIND", year: "2012", month: "10", date: "01", hour: 15 };
-			const body = { station: "KIND", year: year, month: month, date: date, hour: 15 };
-			// const body = { "station": station, "year": year, "month": month, "date": date, "hour":hour };
+			const body = { station: "KIND", year: year, month: month, date: date, hour: hour };
+			// const body = {
+			// 	station: "KIND",
+			// 	year: "2011",
+			// 	month: "10",
+			// 	date: "01",
+			// 	hour: 15,
+			// };
 
 			setLoading(true);
+
+			if (isVideo) {
+				cache_api = "http://localhost:8080/api/getvideo";
+			}
+			console.log(cache_api);
 			const { data } = await axios.post(`${cache_api}`, body, {
 				"Content-Type": "text/JSON",
 			});
@@ -67,15 +94,16 @@ const PlotPage = () => {
 			setLoading(false);
 		} catch (error) {
 			setLoading(false);
-			toast.error(error.response.data);
+			toast.error(error);
 		}
 	};
+
 	const mapHandler = event => {
 		setStation("Chosen State : " + " " + event.target.dataset.name);
 		setFlag(true);
 	};
-	const handleChange = nextChecked => {
-		setChecked(nextChecked);
+	const changeVideoMode = videoBool => {
+		setIsVideo(videoBool);
 	};
 	const togglePopup = () => {
 		setIsOpen(!isOpen);
@@ -108,12 +136,66 @@ const PlotPage = () => {
 	];
 	const format = "HH:mm";
 
+	const logout = async () => {
+		dispatch({
+			type: "LOGOUT",
+		});
+		window.localStorage.removeItem("user");
+		// const { data } = await axios.get("/api/logout");
+		toast.success("Logged Out!");
+		navigate(`/`);
+	};
+
 	return (
 		<>
 			<ToastContainer position="top-center" />
-			<h2>Weather Application</h2>
-			<h3 style={{ marginTop: "1%" }}>Welcome {user && user.name}</h3>
-			<h4 style={{ marginTop: "1%" }}>Select a state to check the weather</h4>
+			<div
+				style={{
+					flexDirection: "row",
+					backgroundColor: "#00cc88",
+					height: "50px",
+				}}
+			>
+				<span
+					style={{
+						fontSize: "200%",
+						fontWeight: "bold",
+						paddingLeft: "580px",
+					}}
+				>
+					Weather Application
+				</span>
+				<span
+					style={{
+						fontWeight: "bold",
+						paddingLeft: "330px",
+					}}
+				>
+					Welcome {user && user.name}
+				</span>
+				<span
+					style={{
+						fontWeight: "bold",
+						paddingLeft: "10px",
+					}}
+				>
+					<button
+						style={{
+							width: "100px",
+							fontSize: "15px",
+							fontWeight: "bold",
+							borderRadius: "200px 200px 200px 200px",
+							cursor: "pointer",
+						}}
+						onClick={logout}
+					>
+						logout
+					</button>
+				</span>
+			</div>
+
+			{/* <h3 style={{ marginTop: "1%" }}>Welcome {user && user.name}</h3> */}
+			<h2 style={{ marginTop: "1%", paddingLeft: "560px" }}>Select a state to check the weather</h2>
 			<div style={{ marginTop: "4%", width: 740 }}>
 				<USAMap onClick={mapHandler}></USAMap>
 			</div>
@@ -176,14 +258,25 @@ const PlotPage = () => {
 
 						<p style={{ marginTop: "9%", marginLeft: "1" }}>Video Mode</p>
 						<div style={{ marginTop: "-9.5%", marginLeft: "25%" }}>
-							<Switch onChange={handleChange} checked={checked} />
+							<Switch onChange={changeVideoMode} checked={isVideo} />
+							<span
+								style={{
+									paddingLeft: "10px",
+									fontSize: "80%",
+									color: "red",
+									fontWeight: "bold",
+								}}
+							>
+								will take longer*
+							</span>
 						</div>
+						<div></div>
 
 						<br></br>
 						<br></br>
 						<br></br>
 
-						{checked ? (
+						{isVideo ? (
 							<div style={{ width: "46%", marginTop: "-11%" }}>
 								<Dropdown
 									options={options}
@@ -191,7 +284,9 @@ const PlotPage = () => {
 									placeholder="Select start hour"
 									style={{ width: "10%" }}
 									onChange={time => {
-										setHour(time.value);
+										let hour_range = time.value.split("-")[0];
+
+										setHour(hour_range);
 									}}
 								/>
 							</div>
@@ -220,16 +315,17 @@ const PlotPage = () => {
 				)}
 
 				<div>
-					{isOpen && (
-						<PlotPopUp
-							content={
-								<>
-									<img width="800" height="500" src={`data:image/png;base64,${img}`} />
-								</>
-							}
-							handleClose={togglePopup}
-						/>
-					)}
+					{isOpen &&
+						(isVideo ? (
+							<VideoPopUp content={<>{parse(img)}</>} handleClose={togglePopup} />
+						) : (
+							<PlotPopUp
+								content={
+									<>{<img width="800" height="500" src={`data:image/png;base64,${img}`} />}</>
+								}
+								handleClose={togglePopup}
+							/>
+						))}
 				</div>
 				<div>{loading && <LoadingBox props={loading} />}</div>
 			</div>
