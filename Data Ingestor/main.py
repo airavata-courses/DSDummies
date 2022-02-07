@@ -35,11 +35,11 @@ class NEXRAD_Plot(Resource):
             # res = get_animation(station, year, month, date, hour)
             res = get_plot_base64(year, month, date, station)
             # res = get_plot_base64("2021", "01", "01", "KIND")
-            
+            # res = None
             if not res:
                 return {
                 "resp": "No Data Found!",
-                "status" : "success"
+                "status" : "NO"
                 }
             
             return {
