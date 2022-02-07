@@ -1,0 +1,9 @@
+# This directory shall contain all the supporting code for the client side which shall be the following
+
+--> Frontend code using React.js
+
+
+RUN (make sure using NVM 16)
+1. npm install
+2. npm start
+
