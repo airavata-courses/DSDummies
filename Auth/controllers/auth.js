@@ -2,6 +2,7 @@ import User from "../models/user";
 import { hashPassword, comparePassword } from "../utils/auth";
 
 export const register = async (req, res) => {
+	console.log("req=",req)
 	try {
 		console.log(req.body);
 		const { name, email, password, role } = req.body;
