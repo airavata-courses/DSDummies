@@ -1,0 +1,18 @@
+name: DSDummies_CI
+
+on:
+  push:
+     branches: [Auth-CI]
+  pull_request:
+
+branches: [Auth-CI]
+
+steps:
+ - uses: actions/checkout@v2
+ - uses: actions/setup-node@v2
+ with:
+    node-version: ’14’
+    cache : “npm”
+ - run npm install
+ - run npm install -g jest
+ - run npm test
