@@ -125,8 +125,14 @@ public class WeatherDataController {
         try {
             // 1. validate request
 
+            String month = req.getMonth();
+            int month_int = Integer.parseInt(month);
+            month_int += 1;
+
+            month = String.valueOf(month_int);
+
             // 2. create Slug
-            String slug = "V-" + req.getStation() + "-" + req.getYear() + "-" + req.getMonth() + "-" + req.getDate()
+            String slug = "V-" + req.getStation() + "-" + req.getYear() + "-" + month + "-" + req.getDate()
                     + "-"
                     + req.getHour();
             System.out.println("slug is " + slug);
@@ -141,6 +147,7 @@ public class WeatherDataController {
                 return new ResponseEntity<>(resp, HttpStatus.OK);
             } else {
                 // 5. Hit flask
+                req.setMonth(month);
                 String api_resp = weatherDataCacheObj.getVideoResponse(req);
 
                 if (api_resp.length() == 0) {
