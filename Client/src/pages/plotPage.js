@@ -99,7 +99,7 @@ const PlotPage = () => {
 	};
 
 	const mapHandler = event => {
-		setStation("Chosen State : " + " " + event.target.dataset.name);
+		setStation(event.target.dataset.name);
 		setFlag(true);
 	};
 	const changeVideoMode = videoBool => {
