@@ -18,7 +18,7 @@ jobs:
       with:
         node-version: 14.x
         cache: 'npm'
-        path: Auth
+        cache-dependency-path: Auth
     - run: npm install
     - run: npm test
 
