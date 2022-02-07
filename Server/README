@@ -1,7 +1,0 @@
-# This directory shall contain all the supporting code for the server side which shall be the following
-
---> Authentication code using Node.js and MongoDB.
---> Flask skeleton
---> Fetching data from S3 using boto and internal libraries
---> Springboot Cache which implements cache to make the turn around time quicker by not hitting the AWS S3 always, instead fetching it from this cache.
-
