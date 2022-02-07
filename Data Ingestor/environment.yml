@@ -9,5 +9,10 @@ dependencies:
   - metpy
   - boto3
   - boto
+  - numpy
+  - xgboost
   - Flask==1.1.2
   - Flask-RESTful==0.3.8
+  - gcc_linux-64
+  - gxx_linux-64
+  - ffmpeg
