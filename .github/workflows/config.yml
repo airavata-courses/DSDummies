@@ -18,11 +18,11 @@ jobs:
       with:
         node-version: 14.x
         cache: 'npm'
-        cache-dependency-path: Auth
-    - name: Build db_middleware with npm    
-      working-directory: ./Auth 
+        cache-dependency-path: Auth   
     - run: npm install
+      working-directory: ./Auth 
     - run: npm test
+      working-directory: ./Auth 
 
 
 
