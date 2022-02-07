@@ -84,6 +84,10 @@ public class WeatherDataCache {
                 return "";
             }
 
+            if (result.getStatus() == "NO") {
+                return "NO";
+            }
+
             return result.getResp();
         } catch (Exception e) {
             throw new Exception("Error While interacting with Flask API : " + e.getMessage());
@@ -118,10 +122,10 @@ public class WeatherDataCache {
             weatherDataCacheObj.setAddedOn(java.time.LocalDateTime.now().toString());
 
             WeatherDataCache respDB = weatherRepository.save(weatherDataCacheObj);
-            System.out.println(respDB.getId());
-            System.out.println(respDB.getSlug());
-            System.out.println(respDB.getResponse());
-            System.out.println(respDB.getAddedOn());
+            // System.out.println(respDB.getId());
+            // System.out.println(respDB.getSlug());
+            // System.out.println(respDB.getResponse());
+            // System.out.println(respDB.getAddedOn());
 
             return true;
 

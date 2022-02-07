@@ -45,10 +45,36 @@ public class WeatherDataController {
 
         try {
             // 1. validate request
+            String station = req.getStation();
+            if (station.length() < 4) {
+                GetPlotResponse resp = new GetPlotResponse("Invalid Station", "Error");
+                return new ResponseEntity<>(resp, HttpStatus.BAD_REQUEST);
+            }
+            String year = req.getYear();
+            if (year.length() < 4) {
+                GetPlotResponse resp = new GetPlotResponse("Invalid year", "Error");
+                return new ResponseEntity<>(resp, HttpStatus.BAD_REQUEST);
+            }
+            String month = req.getMonth();
+            int month_int = Integer.parseInt(month);
+            month_int += 1;
 
+            if (month_int > 10) {
+                month = String.valueOf(month_int);
+            } else {
+                month = "0" + String.valueOf(month_int);
+            }
+            String date = req.getDate();
+            int date_int = Integer.parseInt(date);
+
+            if (date_int > 10) {
+                date = String.valueOf(date_int);
+            } else {
+                date = "0" + String.valueOf(date_int);
+            }
+            String hour = req.getHour();
             // 2. create Slug
-            String slug = req.getStation() + "-" + req.getYear() + "-" + req.getMonth() + "-" + req.getDate() + "-"
-                    + req.getHour();
+            String slug = station + "-" + year + "-" + month + "-" + date + "-" + hour;
             System.out.println("slug is " + slug);
 
             // 3. check if in DB
@@ -61,10 +87,19 @@ public class WeatherDataController {
                 return new ResponseEntity<>(resp, HttpStatus.OK);
             } else {
                 // 5. Hit flask
+                req.setYear(year);
+                req.setDate(date);
+                req.setMonth(month);
+                req.setHour(hour);
                 String api_resp = weatherDataCacheObj.getPlotResponse(req);
 
                 if (api_resp.length() == 0) {
                     GetPlotResponse resp = new GetPlotResponse("Faced an issue! please try again", "API-Failed");
+                    return new ResponseEntity<>(resp, HttpStatus.OK);
+                }
+
+                if (api_resp == "NO") {
+                    GetPlotResponse resp = new GetPlotResponse("No Data Found!", "No-Data");
                     return new ResponseEntity<>(resp, HttpStatus.OK);
                 }
 
