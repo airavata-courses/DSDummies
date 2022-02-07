@@ -12,13 +12,13 @@ services:
       - /usr/src/app/node_modules
   node-app:
     image: node-app
-    env_file: ./Server/Auth/.env
+    env_file: ./Auth/.env
     ports:
       - "8080:8080"
     networks:
       - mern-app
     volumes:
-      - ./Server/Auth/:/usr/src/app
+      - ./Auth/:/usr/src/app
       - /usr/src/app/node_modules
     depends_on:
       - mongo
