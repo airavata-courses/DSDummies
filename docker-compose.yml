@@ -1,0 +1,56 @@
+version: "3"
+services:
+  react-app:
+    image: react-app
+    stdin_open: true
+    ports: 
+      - "3000:3000"
+    networks:
+      - mern-app
+    volumes:
+      - ./Client/:/usr/src/app
+      - /usr/src/app/node_modules
+      
+  node-app:
+    image: node-app
+    env_file: ./Server/Auth/.env
+    ports:
+      - "8000:8000"
+    networks:
+      - mern-app
+    volumes:
+      - ./Server/Auth/:/usr/src/app
+      - /usr/src/app/node_modules
+    depends_on:
+      - mongo
+    
+  springboot-cache-app:
+    image: springboot-cache-app
+    # env_file: ./Server/cach e/.env
+    ports:
+      - "8080:8080"
+    networks:
+      - mern-app
+    build:
+      context: ./Server/cache/
+      dockerfile: Dockerfile
+    volumes:
+      - /data/springboot-docker-compose-app
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo:4.4-bionic
+    ports:
+      - "27017:27017"
+    networks:
+      - mern-app
+    volumes:
+      - ./docker-entrypoint-initdb.d/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+
+networks:
+  mern-app:
+    driver: bridge
+volumes:
+  mongo-data:
+    driver: local
