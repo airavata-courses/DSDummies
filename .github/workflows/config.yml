@@ -21,6 +21,8 @@ jobs:
         cache-dependency-path: Auth   
     - run: npm install
       working-directory: ./Auth 
+    - run: npm install -g jest
+      working-directory: ./Auth 
     - run: npm test
       working-directory: ./Auth 
 
