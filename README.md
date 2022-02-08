@@ -1,6 +1,19 @@
 # DSDummies
 Spring 2022 Project
+<br>
 
-All the commits from the feature branches shall be merged to this branch first.
-
-Feature branch : Data Ingestor Flask
+Main : 
+<br>
+	&nbsp; &nbsp; Project-Milestone1:
+        <br>
+			&nbsp;&nbsp; &nbsp; develop :
+                         <br>
+			 <ul>
+				<li>UI/Frontend</li>
+                                 <br>
+				<li>Microservice_A/Auth-service</li>
+                                 <br>
+				<li>Microservice_B/Cache</li>
+                                 <br>
+				<li>Microservice_C/Data-Ingestor</li>
+			</ul>
