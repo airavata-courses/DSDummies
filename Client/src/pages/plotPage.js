@@ -69,7 +69,7 @@ const PlotPage = () => {
 			}
 
 			// const body = { station: "KIND", year: "2012", month: "10", date: "01", hour: 15 };
-			const body = { station: "KIND", year: year, month: month, date: date, hour: hour };
+			const body = { station: station.trim(), year: year, month: month, date: date, hour: hour };
 			// const body = {
 			// 	station: "KIND",
 			// 	year: "2011",
@@ -77,7 +77,7 @@ const PlotPage = () => {
 			// 	date: "01",
 			// 	hour: 15,
 			// };
-
+			console.log(body);
 			setLoading(true);
 
 			if (isVideo) {
@@ -99,7 +99,7 @@ const PlotPage = () => {
 	};
 
 	const mapHandler = event => {
-		setStation(event.target.dataset.name);
+		// setStation(event.target.dataset.name);
 		setFlag(true);
 	};
 	const changeVideoMode = videoBool => {
@@ -200,11 +200,19 @@ const PlotPage = () => {
 				<USAMap onClick={mapHandler}></USAMap>
 			</div>
 			<div style={{ marginTop: "-35%", marginLeft: "71%" }}>
-				{flag ? (
+				{true ? (
 					<div>
 						{/* <input disabled type="text" style= {{width: "70%"}} placeholder="State" value= {station} onChange={e => setStation(e.target.value)}/> */}
 
-						<p style={{ marginLeft: "0.5%" }}>Chosen State : {station}</p>
+						<div
+							style={{
+								flexDirection: "row",
+							}}
+						>
+							<p style={{ marginLeft: "0.5%" }}>Type State Code :</p>
+							<input value={station} onChange={val => setStation(val.target.value)} />
+						</div>
+
 						<br></br>
 						<YearPicker
 							defaultValue={"select year"}
