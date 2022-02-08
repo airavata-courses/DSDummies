@@ -29,7 +29,4 @@ jobs:
       - name: Build and Install data_extractor with Maven
         working-directory: ./cache
         run: |
-          mvn test
-          mvn clean
-          mvn assembly:single
-          mvn install
+          mvn clean install
