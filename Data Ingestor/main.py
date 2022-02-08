@@ -2,7 +2,8 @@ from flask import Flask
 from flask_restful import Api, Resource, reqparse
 
 from Nexrad_video import get_animation
-from Nexrad_plot import get_plot_base64
+# from Nexrad_plot import get_plot_base64
+from Nexrad_image import get_image
 
 
 app = Flask(__name__)
@@ -25,16 +26,15 @@ video_req.add_argument("hour", type=int, help="Hour", required=True)
 class NEXRAD_Plot(Resource):
     def post(self):
         try:
-            args = plot_req.parse_args()
+            args = video_req.parse_args()
             station, year, month, date, hour = args["station"], args["year"], args["month"], args["date"], args["hour"]
-            print("*"*50)
-            print(station, year, month, date, hour)
-            print("*"*50)
-            # res = get_animation('KIND', 2021, 1, 1, 15)
             
             # res = get_animation(station, year, month, date, hour)
-            res = get_plot_base64(year, month, date, station)
+            # res = get_plot_base64(year, month, date, station)
             # res = get_plot_base64("2021", "01", "01", "KIND")
+            
+            res = get_image(station, year, month, date, hour)
+            
             # res = None
             if not res:
                 return {
