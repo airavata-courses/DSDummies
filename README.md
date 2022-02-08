@@ -2,10 +2,6 @@
 Spring 2022 Project
 <br>
 
-We are the Project milestone 1 on this branch
-
-Hierarchy :
-
 Main : 
 <br>
 	&nbsp; &nbsp; Project-Milestone1:
