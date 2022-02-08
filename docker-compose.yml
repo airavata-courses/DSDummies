@@ -24,23 +24,23 @@ services:
       - mongo
     
   
-  cache_service:
-    build: ./cache/.
+  cache-app:
+    image: cache-app
     restart: always
     ports:
       - 8080:8080
     depends_on:
-      - cache-mongodb
+      - mongo
     networks:
       - mern-app
 
-  cache-mongodb:
-    image: "mongo:4.4.3"
-    restart: always
-    ports:
-      - 27018:27018
-    networks:
-      - mern-app
+  # cache-mongodb:
+  #   image: "mongo:4.4.3"
+  #   restart: always
+  #   ports:
+  #     - 27018:27018
+  #   networks:
+  #     - mern-app
       
   mongo:
     image: mongo:4.4-bionic
@@ -50,6 +50,14 @@ services:
       - mern-app
     volumes:
       - mongo-data:/data/db
+    
+  ingestor-app:
+    image: ingestor-app
+    restart: always
+    ports:
+      - 5678:5678
+    networks:
+      - mern-app
 
 networks:
   mern-app:

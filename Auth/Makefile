@@ -1,2 +1,2 @@
 build:
-	docker build -t node-app .
+	docker build --no-cache -t node-app .

@@ -1,2 +1,2 @@
 build:
-	docker build -t react-app .
+	docker build --no-cache -t react-app .
