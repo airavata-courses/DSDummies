@@ -1,11 +1,11 @@
----
+
 name: Bug report DSDummies
 about: Find bugs and help us to improve
 title: Bug Report
 labels: 'Type: Bug'
 assignees: '' //Fill in names
 
----
+
 <!-- 
 NOTE: Please check existing issues before creating new to avoid duplicates
 -->
