@@ -1,10 +1,14 @@
 
 name: Bug report DSDummies
+<br>
 about: Find bugs and help us to improve
+<br>
 title: Bug Report
+<br>
 labels: 'Type: Bug'
+<br>
 assignees: '' //Fill in names
-
+<br>
 
 <!-- 
 NOTE: Please check existing issues before creating new to avoid duplicates
