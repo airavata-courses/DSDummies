@@ -1,0 +1,114 @@
+name: Assignment_CI
+
+on:
+
+  push:
+
+    branches: [ hotfixes ]
+
+  pull_request:
+
+    branches: [ hotfixes ]
+
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+
+    steps:
+
+    - uses: actions/checkout@v2
+
+    - name: Use Node.js 
+
+      uses: actions/setup-node@v2
+
+      with:
+
+        node-version: 14.x
+
+        cache: 'npm'
+
+        cache-dependency-path: Auth   
+
+    - run: npm install
+
+      working-directory: ./Auth 
+
+    - run: npm install -g jest
+
+      working-directory: ./Auth 
+
+    - run: npm test
+
+      working-directory: ./Auth 
+
+
+    - uses: actions/checkout@v2
+
+    - name: Set up JDK 8
+
+      uses: actions/setup-java@v2
+
+      with:
+
+        java-version: "8"
+
+        distribution: "adopt"
+
+
+    - name: Build and Install cache with Maven
+
+      working-directory: ./cache
+
+      run: |
+          mvn clean install
+    - uses: actions/checkout@v2
+
+    - name: Set up Python 3.10
+
+      uses: actions/setup-python@v2
+
+      with:
+
+        python-version: "3.8"
+
+    - name: Install dependencies
+
+      run: |
+           python -m pip install --upgrade pip
+           pip install flake8 pytest
+           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+    - name: Lint with flake8
+
+      run: |
+            # stop the build if there are Python syntax errors or undefined names
+            flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+            # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
+            flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+    - name: Test with pytest
+
+      run: |
+           python -m pytest
+    - uses: actions/checkout@v2
+
+    - name: Use Node.js 
+
+      uses: actions/setup-node@v2
+
+      with:
+           node-version: 14.x
+           cache: 'npm'
+           cache-dependency-path: Client   
+
+    - run: npm install
+      working-directory: ./Client 
+
+    - run: npm install -g jest
+      working-directory: ./Client 
+
+    - run: npm test
+      working-directory: ./Client
