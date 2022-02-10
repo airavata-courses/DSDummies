@@ -4,11 +4,11 @@ on:
 
   push:
 
-    branches: [ develop-docker-integration ]
+    branches: [ hotfixes ]
 
   pull_request:
 
-    branches: [ develop-docker-integration ]
+    branches: [ hotfixes ]
 
 
 jobs:
