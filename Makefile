@@ -1,2 +1,2 @@
 run-dev:
-	docker-compose up
+	docker-compose --verbose up
