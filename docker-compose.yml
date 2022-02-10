@@ -7,9 +7,13 @@ services:
       - "3000:3000"
     networks:
       - mern-app
+    # network_mode: host
     volumes:
       - ./Client/:/usr/src/app
       - /usr/src/app/node_modules
+    depends_on:
+      - 'node-app'
+
   node-app:
     image: node-app
     env_file: ./Auth/.env
@@ -20,8 +24,10 @@ services:
     volumes:
       - ./Auth/:/usr/src/app
       - /usr/src/app/node_modules
+    # network_mode: host
     depends_on:
-      - mongo
+      - 'mongo'
+      - 'cache-app'
     
   
   cache-app:
@@ -30,7 +36,11 @@ services:
     ports:
       - 8080:8080
     depends_on:
-      - mongo
+      - 'mongo'
+      - 'ingestor-app'
+    # network_mode: host
+    volumes:
+      - ./cache/:/usr/src/app
     networks:
       - mern-app
 
@@ -43,19 +53,23 @@ services:
   #     - mern-app
       
   mongo:
-    image: mongo:4.4-bionic
+    image: "mongo:4.4-bionic"
     ports:
       - "27017:27017"
     networks:
       - mern-app
+    # network_mode: host
     volumes:
       - mongo-data:/data/db
-    
+
   ingestor-app:
     image: ingestor-app
     restart: always
     ports:
       - 5678:5678
+    hostname: data-ingestor
+    container_name:  data-ingestor
+    # network_mode: host
     networks:
       - mern-app
 
