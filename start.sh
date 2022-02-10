@@ -7,12 +7,15 @@ cd ..
 cd Auth
 make build
 
+echo "going out now"
+cd ..
 cd Data\ Ingestor/
 make build
-cd ..
 
+
+cd ..
 cd cache
 make build
-cd ..
 
+cd ..
 make run-dev
