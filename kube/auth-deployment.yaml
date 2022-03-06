@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: node-app-service
+spec:
+  selector:
+    app: node-app
+  ports:
+    - port: 8000
+      targetPort: 8000
+      nodePort: 30000
+  type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: node-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: node-app
+  template:
+    metadata:
+      labels:
+        app: node-app
+    spec:
+      containers:
+        - name: node-app
+          image: node-app
+          ports:
+            - containerPort: 8000
+          env:
+            - name: DATABASE
+              value: mongodb://mongo:27017/user_auth
+          imagePullPolicy: Never
