@@ -548,25 +548,11 @@
       </hashTree>
       <kg.apc.jmeter.threads.UltimateThreadGroup guiclass="kg.apc.jmeter.threads.UltimateThreadGroupGui" testclass="kg.apc.jmeter.threads.UltimateThreadGroup" testname="jp@gc - Ultimate Thread Group" enabled="true">
         <collectionProp name="ultimatethreadgroupdata">
-          <collectionProp name="67634447">
-            <stringProp name="48625">100</stringProp>
+          <collectionProp name="-706587667">
+            <stringProp name="1567">10</stringProp>
             <stringProp name="48">0</stringProp>
             <stringProp name="48625">100</stringProp>
             <stringProp name="1629">30</stringProp>
-            <stringProp name="0"></stringProp>
-          </collectionProp>
-          <collectionProp name="-1808128996">
-            <stringProp name="53430">600</stringProp>
-            <stringProp name="48687">120</stringProp>
-            <stringProp name="1691">50</stringProp>
-            <stringProp name="1629">30</stringProp>
-            <stringProp name="0"></stringProp>
-          </collectionProp>
-          <collectionProp name="-225935501">
-            <stringProp name="50547">300</stringProp>
-            <stringProp name="48873">180</stringProp>
-            <stringProp name="1691">50</stringProp>
-            <stringProp name="60">60</stringProp>
             <stringProp name="0"></stringProp>
           </collectionProp>
         </collectionProp>
