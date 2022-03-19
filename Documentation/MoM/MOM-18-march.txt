@@ -1,0 +1,6 @@
+1) Jetstream2 -> Parth & Umang
+2) CI/CD -> Prerna
+3) Connectivity Issues -> Umang
+4) Auth issues -> Parth
+5) Integrate new Data source (UI Fixes, improve response time)
+6) Documentation
