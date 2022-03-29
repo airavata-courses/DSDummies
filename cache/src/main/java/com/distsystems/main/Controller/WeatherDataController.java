@@ -120,7 +120,7 @@ public class WeatherDataController {
 
     @PostMapping("/getvideo")
     @CrossOrigin(origins = "http://localhost:3000")
-    public ResponseEntity<GetPlotResponse> getVide(@RequestBody GetPlotRequest req) {
+    public ResponseEntity<GetPlotResponse> getVidoe(@RequestBody GetPlotRequest req) {
 
         try {
             // 1. validate request
