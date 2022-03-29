@@ -74,7 +74,7 @@ public class WeatherDataCache {
 
     public String getPlotResponse(GetPlotRequest req) throws Exception {
         try {
-            String uri = "http://di-app-service:31000/get-plot";
+            String uri = "http://di-app-service:5678/get-plot";
             RestTemplate restTemplate = new RestTemplate();
             GetPlotResponse result = restTemplate.postForObject(uri, req, GetPlotResponse.class);
 
@@ -97,7 +97,7 @@ public class WeatherDataCache {
 
     public String getVideoResponse(GetPlotRequest req) throws Exception {
         try {
-            String uri = "http://di-app-service:31000/get-video";
+            String uri = "http://di-app-service:5678/get-video";
             RestTemplate restTemplate = new RestTemplate();
             GetPlotResponse result = restTemplate.postForObject(uri, req, GetPlotResponse.class);
 
