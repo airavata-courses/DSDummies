@@ -26,6 +26,8 @@ const PlotPage = () => {
 	const { state, dispatch } = useContext(Context);
 	const { user } = state;
 
+	const CACHE_API = process.env.REACT_APP_CACHE_API_URI;
+
 	let navigate = useNavigate();
 	//redirect user to homePage if they are not logged in
 	useEffect(() => {
@@ -48,7 +50,8 @@ const PlotPage = () => {
 	const [isVideo, setIsVideo] = useState(false);
 	const [isOpen, setIsOpen] = useState(false);
 
-	let cache_api = "http://localhost:8080/api/getplot";
+	let cache_api = CACHE_API + "/getplot";
+	// let cache_api = "http://localhost:8080/api/getplot";
 	// const cache_api = "http://localhost:8080/api/getvideo";
 
 	const handleSubmit = async () => {
@@ -81,7 +84,8 @@ const PlotPage = () => {
 			setLoading(true);
 
 			if (isVideo) {
-				cache_api = "http://localhost:8080/api/getvideo";
+				cache_api = CACHE_API + "/getvideo";
+				// cache_api = "http://localhost:8080/api/getvideo";
 			}
 			console.log(cache_api);
 			const { data } = await axios.post(`${cache_api}`, body, {
