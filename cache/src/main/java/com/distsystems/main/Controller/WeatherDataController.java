@@ -40,7 +40,7 @@ public class WeatherDataController {
     }
 
     @PostMapping("/getplot")
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin(origins = "http://localhost:30500")
     public ResponseEntity<GetPlotResponse> getPlot(@RequestBody GetPlotRequest req) {
 
         try {
@@ -119,7 +119,7 @@ public class WeatherDataController {
     }
 
     @PostMapping("/getvideo")
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin(origins = "http://localhost:30500")
     public ResponseEntity<GetPlotResponse> getVidoe(@RequestBody GetPlotRequest req) {
 
         try {
