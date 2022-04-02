@@ -19,6 +19,8 @@ RUN python -c "import flask"
 # The code to run when container is started:
 COPY . .
 
+SHELL ["chmod", "600", "/.netrc"]
+
 # RUN pip install -r requirements.txt
 
 EXPOSE 5678

@@ -3,7 +3,7 @@ from flask_restful import Api, Resource, reqparse
 
 from Nexrad_video import get_animation
 # from Nexrad_plot import get_plot_base64
-from Nexrad_image import get_image
+from Nexrad_image import get_image, get_image_M2
 
 
 app = Flask(__name__)
@@ -11,10 +11,11 @@ api = Api(app)
 
 plot_req = reqparse.RequestParser()
 plot_req.add_argument("station", type=str, help="Station Code", required=True)
-plot_req.add_argument("year", type=str, help="Year", required=True)
-plot_req.add_argument("month", type=str, help="Month", required=True)
-plot_req.add_argument("date", type=str, help="Date", required=True)
-plot_req.add_argument("hour", type=str, help="Hour", required=True)
+plot_req.add_argument("year", type=int, help="Year", required=True)
+plot_req.add_argument("month", type=int, help="Month", required=True)
+plot_req.add_argument("date", type=int, help="Date", required=True)
+plot_req.add_argument("hour", type=int, help="Hour", required=True)
+plot_req.add_argument("dataset", type=int, help="dataset", required=True)
 
 video_req = reqparse.RequestParser()
 video_req.add_argument("station", type=str, help="Station Code", required=True)
@@ -26,14 +27,18 @@ video_req.add_argument("hour", type=int, help="Hour", required=True)
 class NEXRAD_Plot(Resource):
     def post(self):
         try:
-            args = video_req.parse_args()
-            station, year, month, date, hour = args["station"], args["year"], args["month"], args["date"], args["hour"]
+            args = plot_req.parse_args()
+            station, year, month, date, hour, dataset = args["station"], args["year"], args["month"], args["date"], args["hour"], args["dataset"]
             
-            # res = get_animation(station, year, month, date, hour)
-            # res = get_plot_base64(year, month, date, station)
-            # res = get_plot_base64("2021", "01", "01", "KIND")
-            
-            res = get_image(station, year, month, date, hour)
+            if dataset == 1:
+                res = get_image(station, year, month, date, hour)
+            elif dataset == 2:
+                res = get_image_M2(station, year, month, date)
+            else:
+                return {
+                "resp": "Send Valid DataSet!",
+                "status" : "Error"
+                }
             
             # res = None
             if not res:

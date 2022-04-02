@@ -8,6 +8,7 @@ import metpy.plots as mpplots
 import matplotlib
 import io
 import base64
+import xarray as xr
 matplotlib.use('Agg')
 import warnings
 warnings.filterwarnings("ignore")
@@ -104,9 +105,6 @@ def get_image(station, year, month, date, time):
             plt.savefig(s, format='png', bbox_inches="tight")
             base64_str = base64.b64encode(s.getvalue()).decode("utf-8").replace("\n", "")
             return base64_str
-
-            # Collect the things we've plotted so we can animate
-            # meshes.append((mesh, text))
             
             
         
@@ -115,5 +113,69 @@ def get_image(station, year, month, date, time):
         print("*"*50)
         print(error)
         err_str = 'Error Occured while interating with AWS: ' +  str(error)
+        raise Exception(err_str)
+        
+
+
+def get_image_M2(station, year, month, date):
+    try:
+        dt = datetime(year, month, date)
+        collection_shortname = 'M2T1NXAER'
+        collection_longname  = 'tavg1_2d_aer_Nx'
+        collection_number = 'MERRA2_400'  
+        MERRA2_version = '5.12.4'
+        year = year
+            
+        # Open dataset
+        # Read selected days in the same month and year
+        month = month  # January
+        day_beg = date
+        day_end = date + 1
+            
+        # Note that collection_number is MERRA2_401 in a few cases, refer to "Records of MERRA-2 Data Reprocessing and Service Changes"
+        if year == 2020 and month == 9:
+            collection_number = 'MERRA2_401'
+                    
+        # OPeNDAP URL 
+
+        url = 'https://goldsmr4.gesdisc.eosdis.nasa.gov/opendap/MERRA2/{}.{}/{}/{:0>2d}'.format(collection_shortname, MERRA2_version, year, month)
+        files_month = ['{}/{}.{}.{}{:0>2d}{:0>2d}.nc4'.format(url,collection_number, collection_longname, year, month, days) for days in range(day_beg,day_end+1,1)]
+            
+        # Read dataset URLs
+        ds = xr.open_mfdataset(files_month)
+
+        sel_var_shortname = "TOTEXTTAU"
+        sel_var_value= ds[sel_var_shortname]
+
+        # Daily mean (i.e., the averaged value over a day at each grid)
+        sel_var_daily_mean = sel_var_value.resample(time="1D").mean(dim='time', skipna=True)
+
+        pmap = sel_var_daily_mean.isel(time=[0, 1]).plot(transform=ccrs.PlateCarree(),  # the data's projection
+                    col='time', col_wrap=2, robust=True, # multiplot settings
+                    cmap=plt.cm.Spectral_r,
+                    cbar_kwargs={
+                    "orientation": "horizontal",
+                    "shrink": 0.9,
+                    "aspect": 40,
+                    "pad": 0.1,
+                                },
+                    subplot_kws={'projection': ccrs.PlateCarree(central_longitude=180)})
+
+
+        #convert plot to base64
+        s = io.BytesIO()
+        figFile_plot = "newMap.png"
+        plt.savefig(s, dpi=500, format='png', bbox_inches="tight")
+        base64_str = base64.b64encode(s.getvalue()).decode("utf-8").replace("\n", "")
+        return base64_str
+    
+            
+            
+        
+    
+    except BaseException as error:
+        print("*"*50)
+        print(error)
+        err_str = 'Error Occured while interating with MERRA2 data: ' +  str(error)
         raise Exception(err_str)
         

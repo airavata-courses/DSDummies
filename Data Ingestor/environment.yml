@@ -13,9 +13,8 @@ dependencies:
   - xgboost
   - Flask==1.1.2
   - Flask-RESTful==0.3.8
-  - gcc_linux-64
-  - gxx_linux-64
   - ffmpeg
+  - dask
   - pip:
       - aniso8601==8.0.0
       - click==7.1.2
