@@ -70,22 +70,19 @@ const PlotPage = () => {
 				toast.error("Please select Date!");
 				return;
 			}
-
-			// const body = { station: "KIND", year: "2012", month: "10", date: "01", hour: 15 };
-			const body = { station: station.trim(), year: year, month: month, date: date, hour: hour };
-			// const body = {
-			// 	station: "KIND",
-			// 	year: "2011",
-			// 	month: "10",
-			// 	date: "01",
-			// 	hour: 15,
-			// };
+			const body = {
+				station: station.trim(),
+				year: year,
+				month: month,
+				date: date,
+				hour: hour,
+				dataset: "1",
+			};
 			console.log(body);
 			setLoading(true);
 
 			if (isVideo) {
 				cache_api = CACHE_API + "/getvideo";
-				// cache_api = "http://localhost:8080/api/getvideo";
 			}
 			console.log(cache_api);
 			const { data } = await axios.post(`${cache_api}`, body, {
@@ -157,14 +154,14 @@ const PlotPage = () => {
 				style={{
 					flexDirection: "row",
 					backgroundColor: "#00cc88",
-					height: "50px",
+					height: "15%",
 				}}
 			>
 				<span
 					style={{
 						fontSize: "200%",
 						fontWeight: "bold",
-						paddingLeft: "580px",
+						paddingLeft: "35%",
 					}}
 				>
 					Weather Application
@@ -172,15 +169,35 @@ const PlotPage = () => {
 				<span
 					style={{
 						fontWeight: "bold",
-						paddingLeft: "330px",
+						paddingLeft: "5%",
+						paddingRight: "1%",
 					}}
 				>
 					Welcome {user && user.name}
 				</span>
+
 				<span
 					style={{
 						fontWeight: "bold",
-						paddingLeft: "10px",
+					}}
+				>
+					<button
+						style={{
+							width: "180px",
+							fontSize: "15px",
+							fontWeight: "bold",
+							borderRadius: "200px 200px 200px 200px",
+							cursor: "pointer",
+						}}
+						onClick={() => navigate(`/plotM2`)}
+					>
+						View MERRA Data
+					</button>
+				</span>
+				<span
+					style={{
+						fontWeight: "bold",
+						paddingLeft: "1%",
 					}}
 				>
 					<button
@@ -198,98 +215,95 @@ const PlotPage = () => {
 				</span>
 			</div>
 
-			{/* <h3 style={{ marginTop: "1%" }}>Welcome {user && user.name}</h3> */}
-			<h2 style={{ marginTop: "1%", paddingLeft: "560px" }}>Select a state to check the weather</h2>
-			<div style={{ marginTop: "4%", width: 740 }}>
-				<USAMap onClick={mapHandler}></USAMap>
-			</div>
-			<div style={{ marginTop: "-35%", marginLeft: "71%" }}>
+			<div style={{ marginTop: "7%", marginLeft: "15%", marginRight: "15%" }}>
 				{true ? (
 					<div>
-						{/* <input disabled type="text" style= {{width: "70%"}} placeholder="State" value= {station} onChange={e => setStation(e.target.value)}/> */}
-
 						<div
 							style={{
 								flexDirection: "row",
 							}}
 						>
-							<p style={{ marginLeft: "0.5%" }}>Type State Code :</p>
+							<p style={{ marginLeft: "0.5%", align: "center" }}>Type State Code :</p>
 							<input value={station} onChange={val => setStation(val.target.value)} />
 						</div>
 
 						<br></br>
-						<YearPicker
-							defaultValue={"select year"}
-							start={1991} // default is 1900
-							end={2021} // default is current year
-							reverse // default is ASCENDING
-							required={true} // default is false
-							disabled={false} // default is false
-							style={{ width: "30%" }}
-							value={year} // mandatory
-							onChange={year => {
-								// mandatory
-								setYear(year);
-								console.log(year);
-							}}
-						/>
 
-						<MonthPicker
-							defaultValue={"select month"}
-							numeric // to get months as numbers
-							short // default is full name
-							caps // default is Titlecase
-							endYearGiven // mandatory if end={} is given in YearPicker
-							year={year} // mandatory
-							required={true} // default is false
-							disabled={false} // default is false
-							style={{ width: "30%" }}
-							value={month} // mandatory
-							onChange={month => {
-								// mandatory
-								setMonth(month);
-								console.log(month);
-							}}
-						/>
-
-						<DayPicker
-							defaultValue={"select day"}
-							year={year} // mandatory
-							month={month} // mandatory
-							endYearGiven // mandatory if end={} is given in YearPicker
-							required={true} // default is false
-							disabled={false} // default is false
-							style={{ width: "30%" }}
-							value={date} // mandatory
-							onChange={day => {
-								// mandatory
-								setDate(day);
-								console.log(day);
-							}}
-						/>
-
-						<p style={{ marginTop: "9%", marginLeft: "1" }}>Video Mode</p>
-						<div style={{ marginTop: "-9.5%", marginLeft: "25%" }}>
-							<Switch onChange={changeVideoMode} checked={isVideo} />
-							<span
-								style={{
-									paddingLeft: "10px",
-									fontSize: "80%",
-									color: "red",
-									fontWeight: "bold",
+						<div style={{ marginTop: "1%" }}>
+							<YearPicker
+								defaultValue={"select year"}
+								start={1991} // default is 1900
+								end={2021} // default is current year
+								reverse // default is ASCENDING
+								required={true} // default is false
+								disabled={false} // default is false
+								style={{ width: "30%", marginTop: "100px", marginBottom: "100px" }}
+								value={year} // mandatory
+								onChange={year => {
+									// mandatory
+									setYear(year);
+									console.log(year);
 								}}
-							>
-								will take longer*
-							</span>
+							/>
+
+							<MonthPicker
+								defaultValue={"select month"}
+								numeric // to get months as numbers
+								short // default is full name
+								caps // default is Titlecase
+								endYearGiven // mandatory if end={} is given in YearPicker
+								year={year} // mandatory
+								required={true} // default is false
+								disabled={false} // default is false
+								style={{ width: "30%" }}
+								value={month} // mandatory
+								onChange={month => {
+									// mandatory
+									setMonth(month);
+									console.log(month);
+								}}
+							/>
+
+							<DayPicker
+								defaultValue={"select day"}
+								year={year} // mandatory
+								month={month} // mandatory
+								endYearGiven // mandatory if end={} is given in YearPicker
+								required={true} // default is false
+								disabled={false} // default is false
+								style={{ width: "30%" }}
+								value={date} // mandatory
+								onChange={day => {
+									// mandatory
+									setDate(day);
+									console.log(day);
+								}}
+							/>
 						</div>
-						<div></div>
+
+						<div style={{ marginTop: "-2%" }}>
+							<p style={{ marginTop: "5%", marginLeft: "1" }}>Video Mode</p>
+							<div style={{ marginTop: "-3%", marginLeft: "10%" }}>
+								<Switch onChange={changeVideoMode} checked={isVideo} />
+								<span
+									style={{
+										paddingLeft: "10px",
+										fontSize: "80%",
+										color: "red",
+										fontWeight: "bold",
+									}}
+								>
+									will take longer*
+								</span>
+							</div>
+						</div>
 
 						<br></br>
 						<br></br>
 						<br></br>
 
 						{isVideo ? (
-							<div style={{ width: "46%", marginTop: "-11%" }}>
+							<div style={{ width: "30%", marginTop: "-4%" }}>
 								<Dropdown
 									options={options}
 									value="select hour range"
@@ -303,7 +317,7 @@ const PlotPage = () => {
 								/>
 							</div>
 						) : (
-							<div style={{ width: "30%", marginTop: "-11%" }}>
+							<div style={{ width: "30%", marginTop: "-4%" }}>
 								<TimePicker
 									defaultValue={moment(moment.now(), format)}
 									format={format}
@@ -317,7 +331,7 @@ const PlotPage = () => {
 						<SubmitButton
 							type="submit"
 							onClick={handleSubmit}
-							style={{ width: "97%", marginTop: "8%" }}
+							style={{ width: "97%", marginTop: "5%" }}
 						>
 							Get Plot
 						</SubmitButton>

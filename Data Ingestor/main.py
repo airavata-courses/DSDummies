@@ -40,7 +40,6 @@ class NEXRAD_Plot(Resource):
                 "status" : "Error"
                 }
             
-            # res = None
             if not res:
                 return {
                 "resp": "No Data Found!",
@@ -94,7 +93,7 @@ class IsWorking(Resource):
 
 api.add_resource(IsWorking, "/isworking")
 api.add_resource(NEXRAD_Plot, "/get-plot")
-api.add_resource(NEXRAD_Video, "/")
+api.add_resource(NEXRAD_Video, "/get-video")
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5678)
