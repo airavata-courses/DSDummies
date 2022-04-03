@@ -1,21 +1,11 @@
 package com.distsystems.main.Controller;
 
-import java.text.Normalizer;
-import java.text.Normalizer.Form;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.regex.Pattern;
-
-import javax.management.Query;
-
 import com.distsystems.main.Model.WeatherDataCache;
 import com.distsystems.main.repository.WeatherDataRepository;
 import com.distsystems.main.utils.GetPlotRequest;
 import com.distsystems.main.utils.GetPlotResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -24,9 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.PathVariable;
 
-// @CrossOrigin(origins = "http://localhost:8081")
 @RestController
 @RequestMapping("/api")
 public class WeatherDataController {
@@ -73,8 +61,15 @@ public class WeatherDataController {
                 date = "0" + String.valueOf(date_int);
             }
             String hour = req.getHour();
+
+            String dataset = req.getDataset();
+            if (!dataset.equals("1") && !dataset.equals("2")) {
+                GetPlotResponse resp = new GetPlotResponse("Invalid Dataset! " + dataset, "Error");
+                return new ResponseEntity<>(resp, HttpStatus.BAD_REQUEST);
+            }
+
             // 2. create Slug
-            String slug = station + "-" + year + "-" + month + "-" + date + "-" + hour;
+            String slug = station + "-" + year + "-" + month + "-" + date + "-" + hour + "-" + dataset;
             System.out.println("slug is " + slug);
 
             // 3. check if in DB

@@ -6,13 +6,15 @@ public class GetPlotRequest {
     private String month;
     private String date;
     private String hour;
+    private String dataset;
 
-    public GetPlotRequest(String station, String year, String month, String date, String hour) {
+    public GetPlotRequest(String station, String year, String month, String date, String hour, String dataset) {
         this.station = station;
         this.year = year;
         this.month = month;
         this.date = date;
         this.hour = hour;
+        this.dataset = dataset;
     }
 
     public String getStation() {
@@ -53,6 +55,14 @@ public class GetPlotRequest {
 
     public void setHour(String hour) {
         this.hour = hour;
+    }
+
+    public String getDataset() {
+        return dataset;
+    }
+
+    public void setDataset(String dataset) {
+        this.dataset = dataset;
     }
 
 }
