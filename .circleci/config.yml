@@ -1,0 +1,76 @@
+version: 2
+jobs:
+  test:
+    docker:
+      - image: dsdummies/client-react:1.0
+    working_directory: https://github.com/airavata-courses/DSDummies
+    steps:
+      - checkout
+      - run: 
+          name: Run Tests
+          command: echo "hello"
+  build:
+    docker:
+      - image: dsdummies/client-react:1.0
+    working_directory: https://github.com/airavata-courses/DSDummies
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run: 
+          name: Install lacking dependencies
+      - run:
+          name: Push docker image
+          command: ENV=dev
+            CIRCLE_BUILD_ID=$CIRCLE_BRANCH-$CIRCLE_SHA1
+            make push-image  /* openstack deploy to jetstream */
+      # - run:
+      #     name: Clean
+      #     command: make clean /* TBD remove */
+  dev-deploy:
+    docker:
+      - image: dsdummies/client-react
+    working_directory: https://github.com/airavata-courses/DSDummies
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Install lacking dependencies
+          command: apt-get update && apt-get install -y make unzip gettext
+      - run:
+          name: Modify kubernetes deployment in the dev cluster
+          command:
+            ENV=dev
+            # make push-image
+      - run:
+          name: Deploy to dev
+          command:
+            ENV=dev
+            MIN_REPLICAS=1
+            MAX_REPLICAS=2
+            CIRCLE_BUILD_ID=$CIRCLE_BRANCH-$CIRCLE_SHA1
+            LOG_LEVEL=info
+            # make deploy
+      # - run:
+      #     name: Clean
+      #     command: make clean
+
+workflows:
+  version: 2
+  dev-deploy:
+    jobs:
+      - test:
+          filters:
+            branches:
+              only:
+                - /.*/
+            tags:
+              ignore:
+                - /.*/
+      - dev-deploy:
+          filters:
+            branches:
+              only:
+                - /.*/
+            tags:
+              ignore:
+                - /.*/
