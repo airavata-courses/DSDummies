@@ -67,8 +67,6 @@ workflows:
               ignore:
                 - /.*/
       - dev-deploy:
-          requires:
-            - dev-deploy-approval
           filters:
             branches:
               only:
