@@ -8,7 +8,7 @@ jobs:
       - checkout
       - run: 
           name: Run Tests
-          command: make test
+          command: echo "hello"
   build:
     docker:
       - image: dsdummies/client-react:1.0
