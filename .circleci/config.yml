@@ -23,9 +23,9 @@ jobs:
           command: ENV=dev
             CIRCLE_BUILD_ID=$CIRCLE_BRANCH-$CIRCLE_SHA1
             make push-image  /* openstack deploy to jetstream */
-      - run:
-          name: Clean
-          command: make clean /* TBD remove */
+      # - run:
+      #     name: Clean
+      #     command: make clean /* TBD remove */
   dev-deploy:
     docker:
       - image: dsdummies/client-react
@@ -50,9 +50,9 @@ jobs:
             CIRCLE_BUILD_ID=$CIRCLE_BRANCH-$CIRCLE_SHA1
             LOG_LEVEL=info
             # make deploy
-      - run:
-          name: Clean
-          command: make clean
+      # - run:
+      #     name: Clean
+      #     command: make clean
 
 workflows:
   version: 2
