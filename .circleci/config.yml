@@ -4,7 +4,7 @@ jobs: # a collection of steps
     working_directory: ~/DSDUMMIES/Data\ Ingestor # directory where steps will run
 
     docker: # run the steps with Docker
-      - image: cimg/python:3.6.2 # ...with this image as the primary container; this is where all `steps` will run
+      - image: cimg/python:3.7.13 # ...with this image as the primary container; this is where all `steps` will run
 
     steps: # a collection of executable commands
       - checkout: # check out source code to working directory
