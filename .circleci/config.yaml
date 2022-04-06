@@ -1,16 +1,12 @@
 version: 2 # use CircleCI 2.0
 jobs: # a collection of steps
   build: # runs not using Workflows must have a `build` job as entry point
-    working_directory: ~/DSDUMMIES/Client # directory where steps will run
+    working_directory: ~/DSDUMMIES/Auth # directory where steps will run
 
     docker: # run the steps with Docker
       - image: cimg/node:17.4.0 # ...with this image as the primary container; this is where all `steps` will run
 
     steps: # a collection of executable commands
-      - add_ssh_keys:
-          fingerprints:
-            - "" # change this add SSH key........................
-
       - checkout: # check out source code to working directory
           path: ~/DSDUMMIES
 
@@ -24,16 +20,9 @@ jobs: # a collection of steps
           when: on_success
           command: |
             docker --version
-            docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-            docker build -t dsdummies/client-react:0.02 .
-            docker push dsdummies/client-react:0.02
-            ssh -oStrictHostKeyChecking=no *** Access JetStream server**** -q <<'EOL'
-                sudo su -
-                cd DSDUMMIES/kube
-                kubectl delete -f react-deployment.yaml
-                git pull
-                kubectl apply -f react-deployment.yaml
-            EOL
+            docker login -u dsdummies -p dsdummies3
+            docker build -t dsdummies/auth-service:1.02 .
+            docker push dsdummies/auth-service:1.02
 
       - run:
           name: Build Failure
