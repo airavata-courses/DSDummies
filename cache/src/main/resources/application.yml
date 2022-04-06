@@ -1,6 +1,0 @@
-spring:
-  data:
-    mongodb:
-      database: cache-app
-      host: mongo
-      port: 27017
