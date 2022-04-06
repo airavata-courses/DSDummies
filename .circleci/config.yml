@@ -21,8 +21,8 @@ jobs: # a collection of steps
           command: |
             docker --version
             docker login -u dsdummies -p dsdummies3
-            docker build -t dsdummies/client-react:0.02 .
-            docker push dsdummies/client-react:0.02
+            docker build -t dsdummies/client-react:1.02 .
+            docker push dsdummies/client-react:1.02
       - run:
           name: Build Failure
           when: on_fail
