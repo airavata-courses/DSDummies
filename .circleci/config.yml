@@ -27,8 +27,8 @@ jobs: # a collection of steps
           command: |
             docker --version
             docker login -u dsdummies -p dsdummies3
-            docker build -t dsdummies/client-react:1.02 .
-            docker push dsdummies/client-react:1.02
+            docker build -t dsdummies/client-react:1.03 .
+            docker push dsdummies/client-react:1.03
             ssh -oStrictHostKeyChecking=no exouser@149.165.154.255 -q <<'EOL'
               sudo su -
               cd DSDummies/kube
