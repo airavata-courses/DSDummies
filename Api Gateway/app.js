@@ -98,7 +98,7 @@ async function postHandlerAuth(req, resp, next) {
   console.log("here")  
   let respBody;
   // resp.header("Access-Control-Allow-Origin", "*");
-  console.log("Received POST request at orionweather");
+  console.log("Received POST request");
   console.log(req.body);
   if(!connectionVar) {
     amqp.connect('amqp://localhost', ampqConnectionHandler);
@@ -154,7 +154,7 @@ async function postHandlerAuth(req, resp, next) {
   console.log("here")  
   let respBody;
   // resp.header("Access-Control-Allow-Origin", "*");
-  console.log("Received POST request at orionweather");
+  console.log("Received POST request");
   console.log(req.body);
   if(!connectionVar) {
     amqp.connect('amqp://localhost', ampqConnectionHandler);
