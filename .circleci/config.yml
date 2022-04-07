@@ -4,7 +4,7 @@ jobs: # a collection of steps
     working_directory: ~/DSDUMMIES/Data\ Ingestor # directory where steps will run
 
     docker: # run the steps with Docker
-      - image: cimg/python:3.7.13 # ...with this image as the primary container; this is where all `steps` will run
+      - image: cimg/base:2021.04 # ...with this image as the primary container; this is where all `steps` will run
 
     steps: # a collection of executable commands
       - checkout: # check out source code to working directory
@@ -20,7 +20,6 @@ jobs: # a collection of steps
           when: on_success
           command: |
             docker --version
-            echo << ls >>
             docker login -u dsdummies -p dsdummies3
             docker build -t dsdummies/data-ingestor:1.0 .
             docker push dsdummies/data-ingestor:1.0
