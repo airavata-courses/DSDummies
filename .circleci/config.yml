@@ -9,7 +9,7 @@ jobs: # a collection of steps
     steps: # a collection of executable commands
       - add_ssh_keys:
           fingerprints:
-            - "	9a:6b:b8:9b:20:e4:b8:24:6f:70:23:a1:ed:20:f3:5b"
+            - "9a:6b:b8:9b:20:e4:b8:24:6f:70:23:a1:ed:20:f3:5b"
 
       - checkout: # check out source code to working directory
           path: ~/DSDUMMIES
