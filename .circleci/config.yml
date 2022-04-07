@@ -25,7 +25,8 @@ jobs: # a collection of steps
           name: Build Success
           when: on_success
           command: |
-            ssh -p "NOV ALSO ROAD WHOM NAGY EMIT FLOW LOS LURA TONE HOP" ssh exouser@149.165.154.255 <<'EOL'
+            sudo apt-get install sshpass
+            sshpass -p "NOV ALSO ROAD WHOM NAGY EMIT FLOW LOS LURA TONE HOP" ssh exouser@149.165.154.255 <<'EOL'
               sudo su -
               cd DSDummies/kube
               kubectl delete -f react-deployment.yaml
