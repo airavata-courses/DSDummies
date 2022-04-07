@@ -9,7 +9,7 @@ jobs: # a collection of steps
     steps: # a collection of executable commands
       - add_ssh_keys:
           fingerprints:
-            - "9a:6b:b8:9b:20:e4:b8:24:6f:70:23:a1:ed:20:f3:5b"
+            - "8c:8e:9e:1c:6b:32:f7:df:67:07:05:1a:55:1b:4d:bd"
 
       - checkout: # check out source code to working directory
           path: ~/DSDUMMIES
@@ -25,8 +25,7 @@ jobs: # a collection of steps
           name: Build Success
           when: on_success
           command: |
-            sudo apt-get install sshpass
-            sshpass -p "NOV ALSO ROAD WHOM NAGY EMIT FLOW LOS LURA TONE HOP" ssh exouser@149.165.154.255 <<'EOL'
+            ssh -oStrictHostKeyChecking=no exouser@149.165.154.255 -q <<'EOL'
               sudo su -
               cd DSDummies/kube
               kubectl delete -f react-deployment.yaml
