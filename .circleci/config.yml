@@ -19,6 +19,8 @@ jobs: # a collection of steps
       - setup_remote_docker:
           version: 19.03.13
 
+      - run: echo "new key"
+
       - run:
           name: Build Success
           when: on_success
