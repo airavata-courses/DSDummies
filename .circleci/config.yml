@@ -20,6 +20,7 @@ jobs: # a collection of steps
           when: on_success
           command: |
             docker --version
+            ls
             docker login -u dsdummies -p dsdummies3
             docker build -t dsdummies/data-ingestor:1.0 .
             docker push dsdummies/data-ingestor:1.0
