@@ -9,7 +9,7 @@ jobs: # a collection of steps
     steps: # a collection of executable commands
       - add_ssh_keys:
           fingerprints:
-            - "	9a:6b:b8:9b:20:e4:b8:24:6f:70:23:a1:ed:20:f3:5b"
+            - "9a:6b:b8:9b:20:e4:b8:24:6f:70:23:a1:ed:20:f3:5b"
 
       - checkout: # check out source code to working directory
           path: ~/DSDUMMIES
@@ -25,7 +25,7 @@ jobs: # a collection of steps
           name: Build Success
           when: on_success
           command: |
-            ssh exouser@149.165.154.255 <<'EOL'
+            ssh -oStrictHostKeyChecking=no exouser@149.165.154.255 <<'EOL'
               sudo su -
               cd DSDummies/kube
               kubectl delete -f react-deployment.yaml
