@@ -49,8 +49,8 @@ def polar_to_cartesian(az, rng):
 
 def get_image(station, year, month, date, time):
     try:
-        dt = datetime(year, month, date, time)
-        
+       
+        dt = datetime(int(year), int(month), int(date), time)
         rs = RadarServer('http://tds-nexrad.scigw.unidata.ucar.edu/thredds/radarServer/nexrad/level2/S3/')
         query = rs.query()
         
@@ -92,7 +92,9 @@ def get_image(station, year, month, date, time):
 
             # Convert data to float and coordinates to Cartesian
             ref = raw_to_masked_float(ref_var, ref_var[sweep])
+            print("2=",ref)
             x, y = polar_to_cartesian(az, rng)
+            print("3=",x,y)
 
             # Plot the data and the timestamp
             mesh = ax.pcolormesh(x, y, ref, cmap=ref_cmap, norm=ref_norm, zorder=0)

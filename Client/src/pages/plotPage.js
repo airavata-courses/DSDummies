@@ -22,6 +22,7 @@ import { useNavigate } from "react-router-dom";
 // import Jumbotron from "react-bootstrap/Jumbotron";
 
 const PlotPage = () => {
+	console.log("hereee")
 	// for loading user data
 	const { state, dispatch } = useContext(Context);
 	const { user } = state;
@@ -32,13 +33,14 @@ const PlotPage = () => {
 	//redirect user to homePage if they are not logged in
 	useEffect(() => {
 		if (user === null) {
+			console.log("hereee+++++",window.localStorage.getItem("user"))
 			let user_data = JSON.parse(window.localStorage.getItem("user"));
-			if (user_data === null) {
+			if (user_data === null || user_data === undefined) {
 				navigate(`/`);
 			}
 		}
 	}, [user]);
-
+ 
 	const [station, setStation] = useState("");
 	const [year, setYear] = useState("");
 	const [month, setMonth] = useState("");
@@ -50,11 +52,26 @@ const PlotPage = () => {
 	const [isVideo, setIsVideo] = useState(false);
 	const [isOpen, setIsOpen] = useState(false);
 
-	let cache_api = CACHE_API + "/getplot";
+	async function sendDataToGateway(data) {
+		console.log("hereee-----")
+
+		return fetch('http://localhost:4000/getplot', {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify(data)
+		})
+		.then(data => data.json())
+	}
+
+	// let cache_api = CACHE_API + "/getplot";
 	// let cache_api = "http://localhost:8080/api/getplot";
 	// const cache_api = "http://localhost:8080/api/getvideo";
 
 	const handleSubmit = async () => {
+		console.log("hereee!!!!")
+
 		//TODO: validate inputs
 		console.log("values recvd==", station, year, month, date, hour);
 		try {
@@ -72,7 +89,7 @@ const PlotPage = () => {
 			}
 
 			// const body = { station: "KIND", year: "2012", month: "10", date: "01", hour: 15 };
-			const body = { station: station.trim(), year: year, month: month, date: date, hour: hour };
+			const body = { station: station.trim(), year: year, month: month, date: date, hour: hour, video:false };
 			// const body = {
 			// 	station: "KIND",
 			// 	year: "2011",
@@ -84,17 +101,20 @@ const PlotPage = () => {
 			setLoading(true);
 
 			if (isVideo) {
-				cache_api = CACHE_API + "/getvideo";
+				const body = { station: station.trim(), year: year, month: month, date: date, hour: hour, video:true };
+				// cache_api = CACHE_API + "/getvideo";
 				// cache_api = "http://localhost:8080/api/getvideo";
 			}
-			console.log(cache_api);
-			const { data } = await axios.post(`${cache_api}`, body, {
-				"Content-Type": "text/JSON",
-			});
+			// console.log(cache_api);
+			// const { data } = await axios.post(`${cache_api}`, body, {
+			// 	"Content-Type": "text/JSON",
+			// });
+			const { data } = await sendDataToGateway({body});
+
 			console.log("cache response : ", data);
 			setFlag(true);
 			togglePopup();
-			setImg(data.resp);
+			setImg(data.resp); 
 			setLoading(false);
 		} catch (error) {
 			setLoading(false);

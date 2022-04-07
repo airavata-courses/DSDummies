@@ -8,6 +8,7 @@ import PlotPage from "./pages/plotPage";
 import { Provider } from "./context";
 
 function App() {
+	console.log("here")
 	return (
 		<Provider>
 			<Router>

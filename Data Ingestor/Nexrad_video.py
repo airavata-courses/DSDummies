@@ -48,10 +48,10 @@ def polar_to_cartesian(az, rng):
 
 def get_animation(station, year, month, date, time):
     try:
-        dt = datetime(year, month, date, time)
+        dt = datetime(int(year), int(month), int(date), time)
         
         rs = RadarServer('http://tds-nexrad.scigw.unidata.ucar.edu/thredds/radarServer/nexrad/level2/S3/')
-        query = rs.query()
+        query = rs.query() 
         
         # Our specified time range
         query.stations(station).time_range(dt, dt + timedelta(hours=1))

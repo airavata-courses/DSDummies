@@ -18,16 +18,30 @@ export function SignupForm(props) {
 	const [loading, setLoading] = useState("");
 	const auth_api = process.env.REACT_APP_AUTH_API_URI;
 
+	async function sendDataToGateway(data) {
+		return fetch('http://localhost:4000/loginregister', {
+		method: 'PUT',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify(data)
+		})
+		.then(data => data.json())
+	}
+
+
 	const handleSubmit = async () => {
 		try {
-			console.log(auth_api);
+			// console.log(auth_api);
 			setLoading(true);
-			const { data } = await axios.put(`${auth_api}/register`, {
-				name,
-				email,
-				password,
-				role: "Admin",
-			});
+			const send = {name,email,password, role: "Admin"}
+			const { data } = await sendDataToGateway(send);
+			// const { data } = await axios.put(`${auth_api}/register`, {
+			// 	name,
+			// 	email,
+			// 	password,
+			// 	role: "Admin",
+			// });
 			console.log("register response : ", data);
 			toast.success("Registration Successful. Please Login!");
 			setName("");
