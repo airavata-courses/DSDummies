@@ -70,7 +70,7 @@ export function AuthForm(props) {
 				/>
 				{active === "signin" && (
 					<HeaderContainer>
-						<HeaderText>Welcome (YESS! kube deployed)</HeaderText>
+						<HeaderText>Bitch Be Humble!</HeaderText>
 						<HeaderText>Back</HeaderText>
 						<SmallText>Please sign-in to continue!</SmallText>
 					</HeaderContainer>
