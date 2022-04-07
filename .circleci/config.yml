@@ -7,6 +7,10 @@ jobs: # a collection of steps
       - image: cimg/node:17.4.0 # ...with this image as the primary container; this is where all `steps` will run
 
     steps: # a collection of executable commands
+      - add_ssh_keys:
+        fingerprints:
+          - "8c:8e:9e:1c:6b:32:f7:df:67:07:05:1a:55:1b:4d:bd"
+
       - checkout: # check out source code to working directory
           path: ~/DSDUMMIES
 
@@ -21,8 +25,14 @@ jobs: # a collection of steps
           command: |
             docker --version
             docker login -u dsdummies -p dsdummies3
-            docker build -t dsdummies/auth-service:1.02 .
-            docker push dsdummies/auth-service:1.02
+            docker build -t dsdummies/auth-service:latest .
+            docker push dsdummies/auth-service:latest
+            ssh -oStrictHostKeyChecking=no exouser@149.165.154.255 -q <<'EOL'
+              sudo su -
+              cd DSDummies/kube
+              kubectl delete -f auth-deployment.yaml
+              kubectl apply -f auth-deployment.yaml
+            EOL
 
       - run:
           name: Build Failure
