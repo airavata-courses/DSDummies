@@ -9,7 +9,7 @@ jobs: # a collection of steps
     steps: # a collection of executable commands
       - add_ssh_keys:
           fingerprints:
-            - "8c:8e:9e:1c:6b:32:f7:df:67:07:05:1a:55:1b:4d:bd"
+            - "af:d3:f0:fa:29:1b:5b:d4:27:1a:38:f8:d7:1d:74:c5"
 
       - checkout: # check out source code to working directory
           path: ~/DSDUMMIES
@@ -25,9 +25,9 @@ jobs: # a collection of steps
           command: |
             docker --version
             docker login -u dsdummies -p dsdummies3
-            docker build -t dsdummies/client-react:latest .
-            docker push dsdummies/client-react:latest
-            ssh -oStrictHostKeyChecking=no exouser@149.165.154.255 -q <<'EOL'
+            docker build -t dsdummies/client-react:a1.01 .
+            docker push dsdummies/client-react:a1.01
+            ssh -oStrictHostKeyChecking=no umangmsharma@149.165.157.85 -q <<'EOL'
               sudo su -
               cd DSDummies/kube
               kubectl delete -f react-deployment.yaml
