@@ -1,7 +1,7 @@
 version: 2 # use CircleCI 2.0
 jobs: # a collection of steps
   build: # runs not using Workflows must have a `build` job as entry point
-    working_directory: ~/DSDUMMIES/Client # directory where steps will run
+    working_directory: ~/DSDUMMIES/Auth # directory where steps will run
 
     docker: # run the steps with Docker
       - image: cimg/node:17.4.0 # ...with this image as the primary container; this is where all `steps` will run
@@ -25,8 +25,8 @@ jobs: # a collection of steps
           command: |
             docker --version
             docker login -u dsdummies -p dsdummies3
-            docker build -t dsdummies/client-react:a1.01 .
-            docker push dsdummies/client-react:a1.01
+            docker build -t dsdummies/auth-service:a1.01 .
+            docker push dsdummies/auth-service:a1.01
             ssh -oStrictHostKeyChecking=no umangmsharma@149.165.157.85 -q <<'EOL'
               sudo su -
               cd DSDummies/kube
