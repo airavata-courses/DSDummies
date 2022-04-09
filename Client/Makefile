@@ -1,5 +1,5 @@
 build:
-	docker build --no-cache -t dsdummies/client-react:1.02 .
+	docker build --no-cache -t dsdummies/client-react:a1.01 .
 
 push: 
-	docker push dsdummies/client-react:1.02 
+	docker push dsdummies/client-react:a1.01 

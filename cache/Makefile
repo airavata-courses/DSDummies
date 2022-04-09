@@ -1,5 +1,5 @@
 build:
-	docker build --no-cache -t dsdummies/cache-service:1.02 .
+	docker build --no-cache -t dsdummies/cache-service:a1.02 .
 
 push: 
-	docker push dsdummies/cache-service:1.02
+	docker push dsdummies/cache-service:a1.02

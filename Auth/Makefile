@@ -1,5 +1,5 @@
 build:
-	docker build --no-cache -t dsdummies/auth-service:1.02 .
+	docker build --no-cache -t dsdummies/auth-service:a1.01 .
 
 push:
-	docker push dsdummies/auth-service:1.02
+	docker push dsdummies/auth-service:a1.01

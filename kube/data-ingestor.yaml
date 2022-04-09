@@ -27,6 +27,7 @@ spec:
     spec:
       containers:
         - name: di-app
-          image: dsdummies/data-ingestor:1.0
+          image: dsdummies/data-ingestor:a1.02
           ports:
             - containerPort: 5678
+          imagePullPolicy: Always
