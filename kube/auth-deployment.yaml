@@ -27,10 +27,9 @@ spec:
     spec:
       containers:
         - name: node-app
-          image: node-app
+          image: dsdummies/auth-service:1.02
           ports:
             - containerPort: 8000
           env:
             - name: DATABASE
               value: mongodb://mongo:27017/user_auth
-          imagePullPolicy: Never

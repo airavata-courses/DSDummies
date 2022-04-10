@@ -27,7 +27,6 @@ spec:
     spec:
       containers:
         - name: react-app
-          image: react-app
+          image: dsdummies/client-react:1.0 
           ports:
             - containerPort: 3000
-          imagePullPolicy: Never

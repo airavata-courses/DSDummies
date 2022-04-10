@@ -27,10 +27,9 @@ spec:
     spec:
       containers:
         - name: cache-app
-          image: cache-app
+          image: dsdummies/cache-service:1.02
           ports:
             - containerPort: 8080
           env:
             - name: DATABASE
               value: mongodb://mongo:27017/user_auth
-          imagePullPolicy: Never
