@@ -30,8 +30,3 @@ spec:
           image: mongo:4.4-bionic
           ports:
             - containerPort: 27017
-          env:
-            - name: MONGO_INITDB_ROOT_USERNAME
-              value: PROJECT1-ADMIN
-            - name: MONGO_INITDB_ROOT_PASSWORD
-              value: Project1-ADS   
