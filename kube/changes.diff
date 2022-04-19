@@ -1,0 +1,95 @@
+diff --git a/Auth/Makefile b/Auth/Makefile
+index a25cfa8..b5d9f4b 100644
+--- a/Auth/Makefile
++++ b/Auth/Makefile
+@@ -1,5 +1,5 @@
+ build:
+-	docker build --no-cache -t dsdummies/auth-service:a1.01 .
++	docker build --no-cache -t dsdummies/auth-service:a1.02 .
+ 
+ push:
+-	docker push dsdummies/auth-service:a1.01
++	docker push dsdummies/auth-service:a1.02
+diff --git a/Client/.env.local b/Client/.env.local
+index ebe255b..a1d5e9b 100644
+--- a/Client/.env.local
++++ b/Client/.env.local
+@@ -1,2 +1,2 @@
+-REACT_APP_AUTH_API_URI = http://149.165.157.85:30000/api
+-REACT_APP_CACHE_API_URI = http://149.165.157.85:32000/api
++REACT_APP_AUTH_API_URI = http://149.165.156.154:30000/api
++REACT_APP_CACHE_API_URI = http://149.165.156.154:32000/api
+diff --git a/Client/Makefile b/Client/Makefile
+index 4d1f277..a0edcee 100644
+--- a/Client/Makefile
++++ b/Client/Makefile
+@@ -1,5 +1,5 @@
+ build:
+-	docker build --no-cache -t dsdummies/client-react:a1.01 .
++	docker build --no-cache -t dsdummies/client-react:a1.02 .
+ 
+ push: 
+-	docker push dsdummies/client-react:a1.01 
++	docker push dsdummies/client-react:a1.02 
+diff --git a/cache/Makefile b/cache/Makefile
+index 5d524dd..debaf78 100644
+--- a/cache/Makefile
++++ b/cache/Makefile
+@@ -1,2 +1,4 @@
+ build:
+-	docker build --no-cache -t cache-app .
+\ No newline at end of file
++	docker build --no-cache -t dsdummies/cache-service:a1.02 .
++push: 
++	docker push dsdummies/cache-service:a1.02
+diff --git a/cache/cache-0.0.1-SNAPSHOT.jar b/cache/cache-0.0.1-SNAPSHOT.jar
+index 3b67937..652cbf3 100644
+Binary files a/cache/cache-0.0.1-SNAPSHOT.jar and b/cache/cache-0.0.1-SNAPSHOT.jar differ
+diff --git a/cache/src/main/java/com/distsystems/main/Controller/WeatherDataController.java b/cache/src/main/java/com/distsystems/main/Controller/WeatherDataController.java
+index ae4c36c..89e1b77 100644
+--- a/cache/src/main/java/com/distsystems/main/Controller/WeatherDataController.java
++++ b/cache/src/main/java/com/distsystems/main/Controller/WeatherDataController.java
+@@ -28,7 +28,7 @@ public class WeatherDataController {
+     }
+ 
+     @PostMapping("/getplot")
+-    @CrossOrigin(origins = "http://149.165.157.85:30500")
++    @CrossOrigin(origins = "http://149.165.156.154:30500")
+     public ResponseEntity<GetPlotResponse> getPlot(@RequestBody GetPlotRequest req) {
+ 
+         try {
+@@ -114,7 +114,7 @@ public class WeatherDataController {
+     }
+ 
+     @PostMapping("/getvideo")
+-    @CrossOrigin(origins = "http://149.165.157.85:30500")
++    @CrossOrigin(origins = "http://149.165.156.154:30500")
+     public ResponseEntity<GetPlotResponse> getVidoe(@RequestBody GetPlotRequest req) {
+ 
+         try {
+diff --git a/kube/auth-deployment.yaml b/kube/auth-deployment.yaml
+index b5a0dc0..d202806 100644
+--- a/kube/auth-deployment.yaml
++++ b/kube/auth-deployment.yaml
+@@ -27,7 +27,7 @@ spec:
+     spec:
+       containers:
+         - name: node-app
+-          image: dsdummies/auth-service:a1.01
++          image: dsdummies/auth-service:a1.02
+           ports:
+             - containerPort: 8000
+           env:
+diff --git a/kube/react-deployment.yaml b/kube/react-deployment.yaml
+index 4ee97dc..221295b 100644
+--- a/kube/react-deployment.yaml
++++ b/kube/react-deployment.yaml
+@@ -27,7 +27,7 @@ spec:
+     spec:
+       containers:
+         - name: react-app
+-          image: dsdummies/client-react:a1.01 
++          image: dsdummies/client-react:a1.02 
+           ports:
+             - containerPort: 3000
+           imagePullPolicy: Always

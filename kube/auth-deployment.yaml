@@ -27,7 +27,7 @@ spec:
     spec:
       containers:
         - name: node-app
-          image: dsdummies/auth-service:a1.01
+          image: dsdummies/auth-service:a1.02
           ports:
             - containerPort: 8000
           env:

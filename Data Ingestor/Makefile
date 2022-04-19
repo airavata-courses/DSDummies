@@ -1,5 +1,5 @@
 build:
-	docker build --no-cache -t dsdummies/data-ingestor:a1.02 .
+	docker build --no-cache -t dsdummies/data-ingestor:a1.03 .
 
 push:
-	docker push dsdummies/data-ingestor:a1.02
+	docker push dsdummies/data-ingestor:a1.03
