@@ -1,2 +1,5 @@
 build:
-	docker build --no-cache -t node-app .
+	docker build --no-cache -t dsdummies/auth-service:a1.02 .
+
+push:
+	docker push dsdummies/auth-service:a1.02
