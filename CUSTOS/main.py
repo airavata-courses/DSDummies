@@ -98,6 +98,30 @@ class CUSTOS_TEST():
                 print(e)
                 print("Group may be already created")
                 
+    def doesUserExists(self, request):
+        response = self.user_management_client.find_users(token=self.b64_encoded_custos_token, offset=0, limit=1,
+                                                 username=request["username"])
+        return str(response)
+    
+    def check_user_permissions(self, user):
+        try:
+            access = self.sharing_management_client.user_has_access(token=self.b64_encoded_custos_token,
+                                                            client_id=self.custos_settings.CUSTOS_CLIENT_ID,
+                                                            entity_id="kapil_user",
+                                                            permission_type="READ",
+                                                            user_id=user['username'])
+            usr = user['username']
+            print("Access for user " + usr + " : " + str(access))
+            return "Access for user " + usr + " : " + str(access)
+        except Exception as e:
+            print("Permission checking error "+ str(e))
+            
+    def get_user(self, user):
+        response = self.user_management_client.get_user(token=self.b64_encoded_custos_token,
+                                               username=user["username"])
+        print(response)
+        return str(response)
+                
                 
 class RegisterUser(Resource):
     def post(self):
@@ -132,8 +156,113 @@ class RegisterUser(Resource):
             }
             return jsonify(response)
             
-                
-                
+class UserExist(Resource):
+    def post(self):
+        try:
+            req_data = request.get_json()
+        except:
+            response = {
+                "code": "error",
+                "message": "unable to load request"
+            }
+            return jsonify(response)
+
+        try:
+            global custosTest
+            res = custosTest.doesUserExists(req_data)
+            print("*"*50)
+            print(res)
+            result = False
+            if res:
+                print("Present")
+                result = True
+            else:
+                print("Not Present!!!")
+                result = False
+            
+            response = {
+                "code": "success",
+                "message": result
+            }
+            
+            return jsonify(response)
+        
+        except BaseException as error:
+            print(error)
+            err_str = "errro is : " + str(error)
+            response = {
+                "code": "error",
+                "message": err_str
+            }
+            return jsonify(response)
+        
+        
+class UserAccess(Resource):
+    def post(self):
+        try:
+            req_data = request.get_json()
+        except:
+            response = {
+                "code": "error",
+                "message": "unable to load request"
+            }
+            return jsonify(response)
+
+        try:
+            global custosTest
+            res = custosTest.check_user_permissions(req_data)
+            print("*"*50)
+            print(res)
+            response = {
+                "code": "success",
+                "message": res
+            }
+            
+            return jsonify(response)
+        
+        except BaseException as error:
+            print(error)
+            err_str = "errro is : " + str(error)
+            response = {
+                "code": "error",
+                "message": err_str
+            }
+            return jsonify(response)
+        
+   
+class GetUser(Resource):
+    def post(self):
+        try:
+            req_data = request.get_json()
+        except:
+            response = {
+                "code": "error",
+                "message": "unable to load request"
+            }
+            return jsonify(response)
+
+        try:
+            global custosTest
+            res = custosTest.get_user(req_data)
+            print("*"*50)
+            print(res)
+            
+            response = {
+                "code": "success",
+                "message": res
+            }
+            
+            return jsonify(response)
+        
+        except BaseException as error:
+            print(error)
+            err_str = "errro is : " + str(error)
+            response = {
+                "code": "error",
+                "message": "User Not found"
+            }
+            return jsonify(response)
+                 
                 
 
 class IsWorking(Resource):
@@ -143,6 +272,9 @@ class IsWorking(Resource):
 
 api.add_resource(IsWorking, "/isworking")
 api.add_resource(RegisterUser, "/register-user")
+api.add_resource(UserExist, "/user-exist")
+api.add_resource(UserAccess, "/user-access")
+api.add_resource(GetUser, "/get-user")
 
 def initialize():
     global custosTest
